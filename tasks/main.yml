@@ -10,7 +10,7 @@
   #
   #  OS agnostic system configuration
   #
-  - ansible.builtin.import_tasks: system/main.yml
+  - ansible.builtin.import_tasks: /system/main.yml
 
   #
   #  User configuration
