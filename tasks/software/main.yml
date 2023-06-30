@@ -1,0 +1,8 @@
+---
+# Main execution file for base level software configurations
+
+# perform OpenSSH configuration
+#- ansible.builtin.import_tasks: openssh.yml
+
+# performs ufw based firewall configuration
+- ansible.builtin.import_tasks: ufw/main.yml

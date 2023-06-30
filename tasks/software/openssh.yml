@@ -1,0 +1,28 @@
+---
+# This file contains configuration tasks for 'OpenSSH'
+
+- name: system | openssh | install or update daemon package
+  tags: system,ssh,openssh
+  ansible.builtin.apt:
+    name: "{{ openssh_package }}"
+    state: latest
+  notify: restart_sshd
+
+
+- name: system | openssh | enable daemon
+  tags: system,ssh,openssh
+  ansible.builtin.service:
+    name: "{{ openssh_service }}"
+    enabled: yes
+    state: started
+
+
+- name: system | openssh | generate sshd_config file from template
+  tags: system,ssh,openssh
+  ansible.builtin.template:
+    src: ssh/sshd_config.j2
+    dest: /etc/ssh/sshd_config
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart_sshd

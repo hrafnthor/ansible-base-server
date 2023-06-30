@@ -1,0 +1,5 @@
+---
+# This file contains Ubuntu centric variables for use in the tasks
+
+openssh_package: openssh-server
+openssh_service: ssh

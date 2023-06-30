@@ -1,0 +1,205 @@
+{
+    "title": "ufw",
+    "description": "schema for ufw configuration",
+    "type": "object",
+    "properties":
+    {
+        "logging":
+        {
+            "type": "string",
+            "enum":
+            [
+                "on",
+                "off",
+                "low",
+                "medium",
+                "high",
+                "full"
+            ]
+        },
+        "defaults":
+        {
+            "type": "object",
+            "properties":
+            {
+                "incoming":
+                {
+                    "type": "string",
+                    "enum":
+                    [
+                        "allow",
+                        "deny",
+                        "reject"
+                    ]
+                },
+                "outgoing":
+                {
+                    "type": "string",
+                    "enum":
+                    [
+                        "allow",
+                        "deny",
+                        "reject"
+                    ]
+                }
+            }
+        },
+        "state":
+        {
+            "type": "string",
+            "enum":
+            [
+                "enabled",
+                "disabled",
+                "reloaded",
+                "reset"
+            ]
+        },
+        "profiles":
+        {
+            "type": "array",
+            "items":
+            {
+                "type": "object",
+                "properties":
+                {
+                    "name":
+                    {
+                        "$ref": "#/definitions/non-empty-string"
+                    },
+                    "delete":
+                    {
+                        "type": "boolean"
+                    },
+                    "rule":
+                    {
+                        "type": "string",
+                        "enum":
+                        [
+                            "allow",
+                            "limit",
+                            "deny",
+                            "reject"
+                        ]
+                    },
+                    "required":
+                    [
+                        "name",
+                        "rule"
+                    ]
+                }
+            }
+        },
+        "rules":
+        {
+            "type": "array",
+            "items":
+            {
+                "type": "object",
+                "properties":
+                {
+                    "policy":
+                    {
+                        "type": "string",
+                        "enum":
+                        [
+                            "allow",
+                            "limit",
+                            "deny",
+                            "reject"
+                        ]
+                    },
+                    "delete":
+                    {
+                        "type": "boolean"
+                    },
+                    "direction":
+                    {
+                        "type": "string",
+                        "enum":
+                        [
+                            "in",
+                            "incoming",
+                            "out",
+                            "outgoing",
+                            "routed"
+                        ]
+                    },
+                    "interface":
+                    {
+                        "$ref": "#/definitions/non-empty-string"
+                    },
+                    "from_ip":
+                    {
+                        "$ref": "#/definitions/ip-string"
+                    },
+                    "from_port":
+                    {
+                        "$ref": "#/definitions/port"
+                    },
+                    "to_ip":
+                    {
+                        "$ref": "#/definitions/ip-string"
+                    },
+                    "protocol":
+                    {
+                        "type": "string",
+                        "enum":
+                        [
+                            "any",
+                            "tcp",
+                            "udp",
+                            "ipv6",
+                            "esp",
+                            "ah",
+                            "gre",
+                            "igmp"
+                        ]
+                    },
+                    "comment":
+                    {
+                        "$ref": "#/definitions/non-empty-string"
+                    },
+                    "required":
+                    [
+                        "policy",
+                        "direction"
+                    ]
+                }
+            }
+        },
+        "definitions":
+        {
+            "ip-string":
+            {
+                "type": "string",
+                "pattern": "^((25[0-5]|(2[0-4]|1\\d|[1-9]|)\\d)\\.?\\b){4}$"
+            },
+            "port":
+            {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 65535
+            },
+            "non-empty-string":
+            {
+                "type": "string",
+                "minLength": 1
+            },
+            "non-empty-string-array":
+            {
+                "type": "array",
+                "minItems": 1,
+                "items":
+                {
+                    "$ref": "#/definitions/non-empty-string"
+                }
+            },
+            "non-empty-array":
+            {
+                "type": "array",
+                "minItems": 1
+            }
+        }
+    }
+}
