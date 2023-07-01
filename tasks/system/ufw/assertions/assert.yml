@@ -3,8 +3,7 @@
 - name: system | ufw | assert config schema
   ansible.utils.validate:
     data: "{{ ufw }}"
-    criteria:
-      - "{{ lookup('file',  './criteria/ufw-criteria.json') | from_json }}"
+    criteria: "{{ lookup('ansible.builtin.file', './criteria/ufw-criteria.json')}}"
     engine: ansible.utils.jsonschema
   when:
   - ufw is defined
