@@ -90,7 +90,7 @@
                 }
             }
         },
-        "rules":
+        "outgoing":
         {
             "type": "array",
             "items":
@@ -98,6 +98,18 @@
                 "type": "object",
                 "properties":
                 {
+                    "comment":
+                    {
+                        "$ref": "#/definitions/non-empty-string"
+                    },
+                    "delete":
+                    {
+                        "type": "boolean"
+                    },
+                    "interface":
+                    {
+                        "$ref": "#/definitions/non-empty-string"
+                    },
                     "policy":
                     {
                         "type": "string",
@@ -109,27 +121,7 @@
                             "reject"
                         ]
                     },
-                    "delete":
-                    {
-                        "type": "boolean"
-                    },
-                    "direction":
-                    {
-                        "type": "string",
-                        "enum":
-                        [
-                            "in",
-                            "incoming",
-                            "out",
-                            "outgoing",
-                            "routed"
-                        ]
-                    },
-                    "interface":
-                    {
-                        "$ref": "#/definitions/non-empty-string"
-                    },
-                    "from_ip":
+                    "to_ip":
                     {
                         "$ref": "#/definitions/non-empty-string"
                     },
@@ -137,7 +129,62 @@
                     {
                         "$ref": "#definitions/network-port-number"
                     },
-                    "to_ip":
+                    "protocol":
+                    {
+                        "type": "string",
+                        "enum":
+                        [
+                            "any",
+                            "tcp",
+                            "udp",
+                            "ipv6",
+                            "esp",
+                            "ah",
+                            "gre",
+                            "igmp"
+                        ]
+                    }
+                },
+                "required":
+                [
+                    "policy",
+                    "comment",
+                    "from_port"
+                ]
+            }
+        },
+        "incoming":
+        {
+            "type": "array",
+            "items":
+            {
+                "type": "object",
+                "properties":
+                {
+                    "comment":
+                    {
+                        "$ref": "#/definitions/non-empty-string"
+                    },
+                    "delete":
+                    {
+                        "type": "boolean"
+                    },
+                    "interface":
+                    {
+                        "$ref": "#/definitions/non-empty-string"
+                    },
+                    "policy":
+                    {
+                        "type": "string",
+                        "enum":
+                        [
+                            "allow",
+                            "limit",
+                            "deny",
+                            "reject"
+                        ]
+                    },
+                    "from_ip":
                     {
                         "$ref": "#/definitions/non-empty-string"
                     },
@@ -159,17 +206,14 @@
                             "gre",
                             "igmp"
                         ]
-                    },
-                    "comment":
-                    {
-                        "$ref": "#/definitions/non-empty-string"
-                    },
-                    "required":
-                    [
-                        "policy",
-                        "direction"
-                    ]
-                }
+                    }
+                },
+                "required":
+                [
+                    "policy",
+                    "comment",
+                    "to_port"
+                ]
             }
         }
     },

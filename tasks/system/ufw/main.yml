@@ -22,6 +22,56 @@
     - ufw.logging is defined
 
 
+- name: system | ufw | apply profiles
+  community.general.ufw:
+    name: "{{ profile.name }}"
+    rule: "{{ profile.rule }}"
+    delete: "{{ profile.delete | default(false) }}"
+  loop: "{{ ufw.profiles }}"
+  loop_control:
+    loop_var: profile
+  when: 
+    - ufw is defined
+    - ufw.profiles is defined
+
+
+- name: system | ufw | set incoming rules
+  community.general.ufw:
+    rule: "{{ rule.policy }}"
+    delete: "{{ rule.delete | default(false) }}"
+    direction: "in"
+    interface: "{{ rule.interface | default('any') }}"
+    proto: "{{ rule.protocol | default('any') }}"
+    from_ip: "{{ rule.from_ip | default('any') }}"
+    to_port: "{{ rule.to_port }}"
+    comment: "{{ rule.comment | default('') }}"
+  loop: "{{ ufw.incoming }}"
+  loop_control:
+    loop_var: rule
+  when: 
+    - ufw is defined
+    - ufw.incoming is defined
+
+
+- name: system | ufw | set outgoing rules
+  community.general.ufw:
+    rule: "{{ rule.policy }}"
+    delete: "{{ rule.delete | default(false) }}"
+    direction: "out"
+    interface: "{{ rule.interface | default('any') }}"
+    proto: "{{ rule.protocol | default('any') }}"
+    to_ip: "{{ rule.to_ip | default('any') }}"
+    from_port: "{{ rule.from_port }}"
+    comment: "{{ rule.comment | default('') }}"
+  loop: "{{ ufw.outgoing }}"
+  loop_control:
+    loop_var: rule
+  when: 
+    - ufw is defined
+    - ufw.outgoing is defined
+
+
+
 - name: system | ufw | set default for incoming
   community.general.ufw:
     direction: "incoming"
@@ -40,39 +90,6 @@
     - ufw is defined
     - ufw.defaults is defined
     - ufw.defaults.outgoing is defined
-
-
-- name: system | ufw | apply profiles
-  community.general.ufw:
-    name: "{{ profile.name }}"
-    rule: "{{ profile.rule }}"
-    delete: "{{ profile.delete | default(false) }}"
-  loop: "{{ ufw.profiles }}"
-  loop_control:
-    loop_var: profile
-  when: 
-    - ufw is defined
-    - ufw.profiles is defined
-
-
-- name: system | ufw | apply rules
-  community.general.ufw:
-    rule: "{{ rule.policy }}"
-    delete: "{{ rule.delete | default(false) }}"
-    direction: "{{ rule.direction }}"
-    interface: "{{ rule.interface | default('any') }}"
-    protocol: "{{ rule.protocol | default('any') }}"
-    from_ip: "{{ rule.from_ip | default('any') }}"
-    from_port: "{{ rule.from_port | default('any') }}"
-    to_ip: "{{ rule.to_ip | default('any') }}"
-    to_port: "{{ rule.to_port | default('any') }}"
-    comment: "{{ rule.comment | default('') }}"
-  loop: "{{ ufw.rules }}"
-  loop_control:
-    loop_var: rule
-  when: 
-    - ufw is defined
-    - ufw.rules is defined
 
 
 - name: system | ufw | change state
