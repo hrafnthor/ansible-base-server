@@ -141,8 +141,9 @@
                     {
                         "$ref": "#/definitions/ip-string"
                     },
-                    "to_port": {
-                        "$ref:" "#/definitions/port-number"
+                    "to_port":
+                    {
+                        "$ref:": "#/definitions/port-number"
                     },
                     "protocol":
                     {
