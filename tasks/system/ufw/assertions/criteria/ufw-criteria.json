@@ -149,7 +149,7 @@
                 [
                     "policy",
                     "comment",
-                    "from_port"
+                    "to_port"
                 ]
             }
         },
