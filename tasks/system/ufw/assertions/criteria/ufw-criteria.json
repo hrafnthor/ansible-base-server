@@ -125,7 +125,7 @@
                     {
                         "$ref": "#/definitions/non-empty-string"
                     },
-                    "from_port":
+                    "to_port":
                     {
                         "$ref": "#definitions/network-port-number"
                     },

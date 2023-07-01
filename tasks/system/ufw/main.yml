@@ -61,7 +61,7 @@
     interface: "{{ rule.interface | default('any') }}"
     proto: "{{ rule.protocol | default('any') }}"
     to_ip: "{{ rule.to_ip | default('any') }}"
-    from_port: "{{ rule.from_port }}"
+    to_port: "{{ rule.to_port }}"
     comment: "{{ rule.comment | default('') }}"
   loop: "{{ ufw.outgoing }}"
   loop_control:
