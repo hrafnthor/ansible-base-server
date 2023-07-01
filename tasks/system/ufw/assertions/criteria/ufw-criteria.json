@@ -135,11 +135,14 @@
                     },
                     "from_port":
                     {
-                        "$ref": "#/definitions/port"
+                        "$ref": "#/definitions/port-number"
                     },
                     "to_ip":
                     {
                         "$ref": "#/definitions/ip-string"
+                    },
+                    "to_port": {
+                        "$ref:" "#/definitions/port-number"
                     },
                     "protocol":
                     {
@@ -175,7 +178,7 @@
                 "type": "string",
                 "pattern": "^((25[0-5]|(2[0-4]|1\\d|[1-9]|)\\d)\\.?\\b){4}$"
             },
-            "port":
+            "port-number":
             {
                 "type": "number",
                 "minimum": 0,
