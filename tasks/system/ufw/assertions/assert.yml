@@ -1,6 +1,6 @@
 ---
 
-- name: system | ufw | assert config schema
+- name: testing
   ansible.utils.validate:
     data: "{{ ufw }}"
     criteria: "{{ lookup('ansible.builtin.file', './criteria/ufw-criteria.json') | from_json }}"
