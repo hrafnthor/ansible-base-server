@@ -3,3 +3,4 @@
 
 openssh_package: openssh-server
 openssh_service: ssh
+sftp_path: /usr/lib/openssh/sftp-server
