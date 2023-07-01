@@ -52,7 +52,7 @@
     loop_var: profile
   when: 
     - ufw is defined
-    - ufw.rules is defined
+    - ufw.profiles is defined
 
 
 - name: system | ufw | apply rules
