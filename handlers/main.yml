@@ -1,0 +1,7 @@
+# This file contains handlers that can be notified from within
+# the 'base' role tasks
+
+- name: restart_sshd
+  service:
+    name: "{{ openssh_service }}"
+    state: restarted

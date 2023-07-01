@@ -6,6 +6,10 @@
 
 - block:
 
+  #
+  #  Standalone utilities installation steps
+  #
+  - ansible.builtin.import_tasks: utilities.yml
 
   #
   #  OS agnostic system configuration
@@ -17,10 +21,6 @@
   #
   #- ansible.builtin.import_tasks: users/main.yml
 
-  #
-  #  Standalone software installation steps
-  #
-  #- ansible.builtin.import_tasks: software/main.yml
 
   #
   # Root account configuration
