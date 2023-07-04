@@ -1,0 +1,9 @@
+---
+
+- name: assert | ufw | assert input config
+  ansible.utils.validate:
+    data: "{{ systemctl }}"
+    criteria: "{{ lookup('ansible.builtin.file', './criteria/systemctl-criteria.json') | from_json }}"
+    engine: ansible.utils.jsonschema
+  when:
+  - systemctl is defined

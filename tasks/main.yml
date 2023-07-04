@@ -19,7 +19,7 @@
   #
   #  User configuration
   #
-  #- ansible.builtin.import_tasks: users/main.yml
+  - ansible.builtin.import_tasks: users/main.yml
 
 
   #

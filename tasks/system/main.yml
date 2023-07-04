@@ -1,6 +1,9 @@
 ---
 # Main execution file for base level software configurations
 
+# perform system related configuration
+- ansible.builtin.import_tasks: os/main.yml
+
 # perform APT configuration
 - ansible.builtin.import_tasks: apt.yml
 

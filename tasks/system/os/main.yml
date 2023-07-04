@@ -1,0 +1,4 @@
+---
+
+# perform systemctl related configuration
+- ansible.builtin.import_tasks: systemctl.yml
