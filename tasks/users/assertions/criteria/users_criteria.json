@@ -50,10 +50,15 @@
             "shell":
             {
                 "type": "string",
-                "enum": [  
-                  "/bin/bash"
-                  "/bin/zsh"  
-                ],
+                "enum":
+                [
+                    "/bin/bash",
+                    "/bin/zsh"
+                ]
+            },
+            "create_home":
+            {
+                "type": "boolean"
             },
             "disable_login":
             {

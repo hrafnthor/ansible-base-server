@@ -29,9 +29,10 @@
     group: "{{ user.group.name | default(user.name) }}"
     groups: "{{ user.groups | default() }}"
     comment: "{{ user.comment | default(user.name) }}"
-    password: "{{ user.password }}"
+    password: "{{ user.password | default('!')}}"
     update_password: "on_create"
     shell: "{{ user.shell | default('/bin/bash') }}"
+    create_home: "{{ user.create_home | default(true) }}"
     state: present
 
 
