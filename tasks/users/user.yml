@@ -55,3 +55,13 @@
   ansible.builtin.include_tasks: ssh/main.yml
   when:
     - user.ssh is defined
+
+
+- name: system | users | disable login
+  tags: system,users
+  ansible.builtin.user:
+    shell: /usr/sbin/nologin
+    name: "{{ user.name }}"
+  when:
+    - user.disable_login is defined
+    - user.disable_login == true
