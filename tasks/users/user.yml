@@ -21,6 +21,15 @@
     - user.group is defined
 
 
+- name: system | users | create user group
+  tags: system,users,groups
+  ansible.builtin.group:
+    name: "{{ user.name }}"
+    state: present
+  when:
+    - user.group is undefined
+
+
 - name: system | users | create user
   tags: system,users
   ansible.builtin.user:
