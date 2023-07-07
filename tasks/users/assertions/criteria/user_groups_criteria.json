@@ -1,0 +1,24 @@
+{
+    "title": "user_groups",
+    "description": "schema for 'user_group' variable",
+    "type": "array",
+    "items":
+    {
+        "type": "object",
+        "properties":
+        {
+            "id":
+            {
+                "type": "number"
+            },
+            "name":
+            {
+                "type": "string"
+            }
+        },
+        "required":
+        [
+            "name"
+        ]
+    }
+}

@@ -1,0 +1,22 @@
+---
+# This file contains assertions and schema validation required for user management
+
+
+- name: assertion | users | verify 'user_groups' variable
+  ansible.utils.validate:
+    data: "{{ user_groups }}"
+    criteria:
+      - "{{ lookup('file',  './criteria/user_groups_criteria.json') | from_json }}"
+    engine: ansible.utils.jsonschema
+  when:
+    - user_groups is defined
+
+
+- name: assertion | users | verify 'users' variable
+  ansible.utils.validate:
+    data: "{{ users }}"
+    criteria:
+      - "{{ lookup('file',  './criteria/users_criteria.json') | from_json }}"
+    engine: ansible.utils.jsonschema
+  when:
+    - users is defined

@@ -1,0 +1,44 @@
+# This file contains tasks for configuring ssh for a single user
+# It expects to be iterated upon with a user object variable
+
+- name: system | users | assert 'user' variable
+  tags: always
+  ansible.builtin.assert:
+    that:
+      - user is defined
+      - user is mapping
+      - user | length > 0
+
+- name: system | users | create ssh directory
+  ansible.builtin.file:
+    path: "/home/{{ user.name }}/.ssh"
+    state: directory
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    modification_time: preserve
+    access_time: preserve
+    mode: 0700
+  when:
+    - user.ssh is defined
+
+- name: system | users | create authorized_keys
+  ansible.builtin.file:
+    path: "/home/{{ user.name }}/.ssh/authorized_keys"
+    state: touch
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    modification_time: preserve
+    access_time: preserve
+    mode: 0600
+  when:
+    - user.ssh is defined
+
+
+- name: system | users | add authorized key
+  tags: system,users,ssh
+  ansible.builtin.include_tasks: authorized_key.yml
+  loop: "{{ user.ssh.authorized_keys }}"
+  loop_control:
+    loop_var: ssh_key 
+  when:
+    - user.ssh.authorized_keys is defined

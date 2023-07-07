@@ -1,0 +1,29 @@
+---
+# This file contains generalized task configuration for new user generation
+
+- name: assertions | users | run assertions
+  ansible.builtin.import_tasks: assertions/assert.yml
+  run_once: yes
+  delegate_to: localhost
+
+
+- name: system | users | create groups
+  ansible.builtin.group:
+    name: "{{ group.name }}"
+    gid: "{{ group.id }}"
+    state: present
+  loop: "{{ user_groups }}"
+  loop_control:
+    loop_var: group
+  when:
+    - user_groups is defined
+
+
+- name: system | users | create user
+  ansible.builtin.include_tasks: user.yml
+  loop: "{{ users }}"
+  loop_control:
+    loop_var: user
+  when:
+    - users is defined
+    - users | length > 0

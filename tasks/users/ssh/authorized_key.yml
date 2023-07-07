@@ -1,0 +1,19 @@
+# This file contains tasks for adding public ssh keys to user's authorized keys file
+
+- name: system | user | check if ssh key is authorized
+  ansible.builtin.lineinfile:
+    state: absent
+    path: "/home/{{ user.name }}/.ssh/authorized_keys"
+    regexp: "^{{ ssh_key }}"
+  check_mode: true
+  changed_when: false # This just makes things look prettier in the logs
+  register: check_authorized_key
+
+
+- name: system | user | authorize ssh key
+  ansible.builtin.lineinfile:
+    state: present
+    path: "/home/{{ user.name }}/.ssh/authorized_keys"
+    line: "{{ ssh_key }}"
+  when: 
+    - check_authorized_key.found == 0
