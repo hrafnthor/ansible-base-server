@@ -1,0 +1,78 @@
+{
+    "title": "fail2ban",
+    "description": "schema for 'fail2ban' variable",
+    "type": "object",
+    "properties":
+    {
+        "enabled":
+        {
+            "type": "string",
+            "enum":
+            [
+                "reloaded",
+                "restarted",
+                "started",
+                "stopped"
+            ]
+        },
+        "config":
+        {
+            "type": "object",
+            "properties":
+            {
+                "backup":
+                {
+                    "type": "boolean"
+                },
+                "is_template":
+                {
+                    "type": "boolean"
+                },
+                "path":
+                {
+                    "ref": "#/definitions/non-empty-string"
+                }
+            },
+            "required":
+            [
+                "path"
+            ]
+        },
+        "jail":
+        {
+            "type": "object",
+            "properties":
+            {
+                "backup":
+                {
+                    "type": "boolean"
+                },
+                "is_template":
+                {
+                    "type": "boolean"
+                },
+                "path":
+                {
+                    "ref": "#/definitions/non-empty-string"
+                }
+            },
+            "required":
+            [
+                "path"
+            ]
+        }
+    },
+    "definitions":
+    {
+        "non-empty-string":
+        {
+            "type": "string",
+            "minLength": 1
+        },
+        "positive-integer":
+        {
+            "type": "integer",
+            "minimum": 0
+        }
+    }
+}

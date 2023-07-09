@@ -5,3 +5,11 @@
   service:
     name: "{{ openssh_service }}"
     state: restarted
+
+- name: restart_fail2ban
+  ansible.builtin.service:
+    name: fail2ban
+    state: restarted
+
+- name: apt_update
+  apt: update_cache=yes

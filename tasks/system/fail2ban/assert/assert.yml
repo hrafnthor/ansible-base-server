@@ -1,0 +1,7 @@
+- name: assert | fail2ban | assert input config
+  ansible.utils.validate:
+    data: "{{ fail2ban }}"
+    criteria: "{{ lookup('ansible.builtin.file', './criteria/fail2ban-criteria.json') | from_json }}"
+    engine: ansible.utils.jsonschema
+  when:
+  - fail2ban is defined
