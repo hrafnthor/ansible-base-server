@@ -11,14 +11,12 @@
   ansible.builtin.apt:
     state: latest
     name: ufw
-  when:
-    - ufw is defined
+
 
 - name: system | ufw | configure logging
   community.general.ufw:
     logging: "{{ ufw.logging }}"
   when:
-    - ufw is defined
     - ufw.logging is defined
 
 
@@ -31,7 +29,6 @@
   loop_control:
     loop_var: profile
   when: 
-    - ufw is defined
     - ufw.profiles is defined
 
 
@@ -48,7 +45,6 @@
   loop_control:
     loop_var: rule
   when: 
-    - ufw is defined
     - ufw.incoming is defined
 
 
@@ -65,7 +61,6 @@
   loop_control:
     loop_var: rule
   when: 
-    - ufw is defined
     - ufw.outgoing is defined
 
 
@@ -75,7 +70,6 @@
     direction: "incoming"
     policy: "{{ ufw.defaults.incoming }}"
   when:
-    - ufw is defined
     - ufw.defaults is defined
     - ufw.defaults.incoming is defined
 
@@ -85,7 +79,6 @@
     direction: "outgoing"
     policy: "{{ ufw.defaults.outgoing }}"
   when:
-    - ufw is defined
     - ufw.defaults is defined
     - ufw.defaults.outgoing is defined
 
@@ -94,5 +87,4 @@
   community.general.ufw:
     state: "{{ ufw.state }}"
   when:
-    - ufw is defined
     - ufw.state is defined
