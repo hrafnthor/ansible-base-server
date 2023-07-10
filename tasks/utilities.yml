@@ -11,3 +11,4 @@
       - htop
       - tmux
       - whois
+      - logrotate
