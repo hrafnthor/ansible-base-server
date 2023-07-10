@@ -78,4 +78,4 @@
 - name: system | fail2ban | change service state
   ansible.builtin.systemd:
     name: fail2ban
-    state: fail2ban.state
+    state: "{{ fail2ban.state | default('started')}}"
