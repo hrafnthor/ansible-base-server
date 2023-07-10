@@ -7,11 +7,6 @@
 - block:
 
   #
-  #  Standalone utilities installation steps
-  #
-  - ansible.builtin.import_tasks: utilities.yml
-
-  #
   #  OS agnostic system configuration
   #
   - ansible.builtin.import_tasks: system/main.yml
@@ -23,9 +18,14 @@
 
 
   #
+  #  Software installation 
+  #
+  - ansible.builtin.import_tasks: software/main.yml
+
+  #
   # Root account configuration
   #
   # Deliberatly last since all previous steps need to 
   # have succeeded before, to avoid system lockout 
   #
-  #- ansible.builtin.import_tasks: users/root.yml
+  - ansible.builtin.import_tasks: users/root.yml
