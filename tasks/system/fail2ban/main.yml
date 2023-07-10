@@ -23,7 +23,7 @@
     owner: root
     group: root
     mode: '0644'
-    backup: {{ fail2ban.config.backup | default(false) }}
+    backup: "{{ fail2ban.config.backup | default(false) }}"
   notify: restart_fail2ban
   when:
     - fail2ban.config is defined
@@ -38,7 +38,7 @@
     owner: root
     group: root
     mode: '0644'
-    backup: {{ fail2ban.config.backup | default(false) }}
+    backup: "{{ fail2ban.config.backup | default(false) }}"
   notify: restart_fail2ban
   when:
     - fail2ban.config is defined
@@ -53,7 +53,7 @@
     owner: root
     group: root
     mode: '0644'
-    backup: {{ fail2ban.jail.backup | default(false) }}
+    backup: "{{ fail2ban.jail.backup | default(false) }}"
   notify: restart_fail2ban
   when:
     - fail2ban.jail is defined
@@ -68,7 +68,7 @@
     owner: root
     group: root
     mode: '0644'
-    backup: {{ fail2ban.jail.backup | default(false) }}
+    backup: "{{ fail2ban.jail.backup | default(false) }}"
   notify: restart_fail2ban
   when:
     - fail2ban.jail is defined
