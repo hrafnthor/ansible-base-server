@@ -63,13 +63,13 @@ ufw:
     incoming: [deny, allow, reject]
     outgoing: [deny, allow, reject]
   incoming:
-	- comment: non empty string <required>
-	  policy: [allow, limit, deny, reject] <required>
-	  interface: non empty string
-	  delete: boolean. Removes rule if exists
-	  from_ip: ipv4/ipv6 number, defaults to 'any'
-	  to_port: integer between [0, 65535] <required>
-	  protocol: [any (default), tcp, udp, ipv6, esp, ah, gre, igmp]
+  - comment: non empty string <required>
+    policy: [allow, limit, deny, reject] <required>
+    interface: non empty string
+    delete: boolean. Removes rule if exists
+    from_ip: ipv4/ipv6 number, defaults to 'any'
+    to_port: integer between [0, 65535] <required>
+    protocol: [any (default), tcp, udp, ipv6, esp, ah, gre, igmp]
   outgoing:
     - comment: non empty string	<required>
       policy: [allow, limit, deny, reject] <required>
