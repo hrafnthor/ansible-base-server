@@ -1,0 +1,7 @@
+- name: assert | docker | assert input config
+  ansible.utils.validate:
+    data: "{{ fail2ban }}"
+    criteria: "{{ lookup('ansible.builtin.file', './criteria/docker-criteria.json') | from_json }}"
+    engine: ansible.utils.jsonschema
+  when:
+  - docker is defined

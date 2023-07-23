@@ -111,6 +111,11 @@ fail2ban:
 # Standalone software installations
 #
 ######################################### 
-docker: [boolean]
 
+# Existence of 'docker' will install docker
+docker:
+  # Existence of 'compose' will install compose
+  - compose:
+      # the version number of compose to install. [required]
+      - version: [string]
 ```
