@@ -1,0 +1,10 @@
+---
+# This file contains tasks for configuring APT
+
+- name: system | apt | install packages
+  tags: system,package-manager,apt
+  ansible.builtin.apt:
+    state: latest
+    name:
+      - apt-transport-https
+      - apt-file

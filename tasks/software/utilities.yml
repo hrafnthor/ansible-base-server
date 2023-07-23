@@ -1,0 +1,15 @@
+---
+# This file contains configuration steps for various utilities
+
+- name: software | utilities | install package
+  ansible.builtin.apt:
+    state: latest
+    name: 
+      - at
+      - curl
+      - ca-certificates
+      - glances
+      - htop
+      - tmux
+      - whois
+      - logrotate

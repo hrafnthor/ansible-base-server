@@ -1,0 +1,15 @@
+# This file contains handlers that can be notified from within
+# the 'base' role tasks
+
+- name: restart_sshd
+  service:
+    name: "{{ openssh_service }}"
+    state: restarted
+
+- name: restart_fail2ban
+  ansible.builtin.service:
+    name: fail2ban
+    state: restarted
+
+- name: apt_update
+  ansible.builtin.apt: update_cache=yes

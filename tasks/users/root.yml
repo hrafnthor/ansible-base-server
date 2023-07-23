@@ -1,0 +1,13 @@
+---
+# This file contains tasks related to root user configuration.
+# They should be run last to avoid a system lockout situation.
+
+- name: users | root | disable root login
+  tags: users,security,root
+  become: true
+  ansible.builtin.user:
+    shell: /usr/sbin/nologin
+    name: root
+  when:
+    - disable_root_login is defined
+    - disable_root_login == true

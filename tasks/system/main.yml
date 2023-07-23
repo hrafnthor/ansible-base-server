@@ -1,0 +1,19 @@
+---
+# Main execution file for base level software configurations
+
+# perform system related configuration
+- ansible.builtin.import_tasks: os/main.yml
+
+# perform APT configuration
+- ansible.builtin.import_tasks: apt.yml
+
+# perform OpenSSH configuration
+- ansible.builtin.import_tasks: openssh.yml
+
+# perform fail2ban configuration
+- ansible.builtin.import_tasks: fail2ban/main.yml
+  when: fail2ban is defined
+
+# performs ufw based firewall configuration
+- ansible.builtin.import_tasks: ufw/main.yml
+  when: ufw is defined

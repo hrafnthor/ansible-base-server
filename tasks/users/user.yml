@@ -1,0 +1,77 @@
+---
+# This file contains configuration tasks for a singular user.
+# Iterate over user list and invoke this file with each.
+
+- name: system | users | assert 'user' variable
+  tags: always
+  ansible.builtin.assert:
+    that:
+      - user is defined
+      - user is mapping
+      - user | length > 0
+
+
+- name: system | users | create user group
+  tags: system,users,groups
+  ansible.builtin.group:
+    name: "{{ user.group.name }}"
+    gid: "{{ user.group.id }}"
+    state: present
+  when:
+    - user.group is defined
+
+
+- name: system | users | create user group
+  tags: system,users,groups
+  ansible.builtin.group:
+    name: "{{ user.name }}"
+    state: present
+  when:
+    - user.group is undefined
+
+
+- name: system | users | create user
+  tags: system,users
+  ansible.builtin.user:
+    name: "{{ user.name }}"
+    uid: "{{ user.id }}"
+    group: "{{ user.group.name | default(user.name) }}"
+    groups: "{{ user.groups | default() }}"
+    comment: "{{ user.comment | default(user.name) }}"
+    password: "{{ user.password | default('!')}}"
+    update_password: "on_create"
+    shell: "{{ user.shell | default('/bin/bash') }}"
+    create_home: "{{ user.create_home | default(true) }}"
+    state: present
+
+
+- name: system | users | add sudoers file
+  tags: system,users,sudoers
+  ansible.builtin.lineinfile:
+    path: "/etc/sudoers.d/{{ user.name }}"
+    regexp: "^{{ user.name }}"
+    line: "{{ user.name }} ALL=(ALL) NOPASSWD: ALL"
+    owner: root
+    group: root
+    mode: 0644
+    create: yes
+  when:
+    - user.sudoer_file_nopasswd is defined
+    - user.sudoer_file_nopasswd == true
+
+
+- name: system | users | configure ssh
+  tags: system,users,ssh
+  ansible.builtin.include_tasks: ssh/main.yml
+  when:
+    - user.ssh is defined
+
+
+- name: system | users | disable login
+  tags: system,users
+  ansible.builtin.user:
+    shell: /usr/sbin/nologin
+    name: "{{ user.name }}"
+  when:
+    - user.disable_login is defined
+    - user.disable_login == true

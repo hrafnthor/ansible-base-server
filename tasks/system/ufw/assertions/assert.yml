@@ -1,0 +1,9 @@
+---
+
+- name: assert | ufw | assert input config
+  ansible.utils.validate:
+    data: "{{ ufw }}"
+    criteria: "{{ lookup('ansible.builtin.file', './criteria/ufw-criteria.json') | from_json }}"
+    engine: ansible.utils.jsonschema
+  when:
+  - ufw is defined

@@ -1,0 +1,81 @@
+---
+# This file contains configuration steps for 'fail2ban'
+
+- name: assert | fail2ban | assert required inputs
+  tags: assert,fail2ban
+  ansible.builtin.import_tasks: assertions/assert.yml
+  run_once: yes
+  delegate_to: localhost
+
+
+- name: system | fail2ban | install
+  tags: system,software,security,fail2ban
+  ansible.builtin.apt:
+    state: latest
+    name: fail2ban
+
+
+- name: system | fail2ban | copy over template config
+  tags: system,software,security,fail2ban
+  ansible.builtin.template:
+    src: "{{ fail2ban.config.path }}"
+    dest: /etc/fail2ban/fail2ban.local
+    owner: root
+    group: root
+    mode: '0644'
+    backup: "{{ fail2ban.config.backup | default(false) }}"
+  notify: restart_fail2ban
+  when:
+    - fail2ban.config is defined
+    - fail2ban.config.is_template
+
+
+- name: system | fail2ban | copy over config
+  tags: system,software,security,fail2ban
+  ansible.builtin.copy:
+    src: "{{ fail2ban.config.path }}"
+    dest: /etc/fail2ban/fail2ban.local
+    owner: root
+    group: root
+    mode: '0644'
+    backup: "{{ fail2ban.config.backup | default(false) }}"
+  notify: restart_fail2ban
+  when:
+    - fail2ban.config is defined
+    - not fail2ban.config.is_template
+
+
+- name: system | fail2ban | copy over template jails
+  tags: system,software,security,fail2ban
+  ansible.builtin.template:
+    src: "{{ fail2ban.jail.path }}"
+    dest: /etc/fail2ban/jail.local
+    owner: root
+    group: root
+    mode: '0644'
+    backup: "{{ fail2ban.jail.backup | default(false) }}"
+  notify: restart_fail2ban
+  when:
+    - fail2ban.jail is defined
+    - fail2ban.jail.is_template
+
+
+- name: system | fail2ban | copy over jails
+  tags: system,software,security,fail2ban
+  ansible.builtin.copy:
+    src: "{{ fail2ban.jail.path }}"
+    dest: /etc/fail2ban/jail.local
+    owner: root
+    group: root
+    mode: '0644'
+    backup: "{{ fail2ban.jail.backup | default(false) }}"
+  notify: restart_fail2ban
+  when:
+    - fail2ban.jail is defined
+    - not fail2ban.jail.is_template
+
+
+- name: system | fail2ban | change service state
+  ansible.builtin.systemd:
+    name: fail2ban
+    state: "{{ fail2ban.state | default('started')}}"

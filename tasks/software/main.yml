@@ -1,0 +1,7 @@
+
+# Standalone utilities installation
+- ansible.builtin.import_tasks: utilities.yml
+
+# Configuration and installation of Docker
+- ansible.builtin.import_tasks: docker.yml
+  when: docker is defined and docker == true

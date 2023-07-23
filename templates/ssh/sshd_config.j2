@@ -1,0 +1,43 @@
+# See documentation: https://man.openbsd.org/sshd_config
+
+Protocol 2
+Include /etc/ssh/sshd_config.d/*.conf
+
+Port {{ ssh_port | default(22) }}
+
+#
+# 	Authentication
+#
+AllowUsers {{ ssh_users | default("hrafn") }}
+ChallengeResponseAuthentication no
+HostbasedAuthentication no
+LoginGraceTime 60
+PasswordAuthentication {{ passwd_auth | default("no") }}
+PermitEmptyPasswords no
+PermitRootLogin no
+PubkeyAuthentication yes
+StrictModes yes
+ClientAliveInterval 60
+TCPKeepAlive yes
+ClientAliveCountMax 10000
+
+#
+# 	Security
+#
+HostKey /etc/ssh/ssh_host_dsa_key
+HostKey /etc/ssh/ssh_host_ecdsa_key
+HostKey /etc/ssh/ssh_host_ed25519_key
+HostKey /etc/ssh/ssh_host_rsa_key
+
+#
+# 	Misc. options
+#
+AcceptEnv LANG LC_*
+TCPKeepAlive yes
+Subsystem sftp {{ sftp_path }}
+
+#
+# 	Logging
+#
+SyslogFacility AUTH
+LogLevel INFO

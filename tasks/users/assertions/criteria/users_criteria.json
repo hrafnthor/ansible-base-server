@@ -1,0 +1,110 @@
+{
+    "title": "users",
+    "description": "schema for user creation",
+    "type": "array",
+    "items":
+    {
+        "type": "object",
+        "properties":
+        {
+            "id":
+            {
+                "type": "number"
+            },
+            "name":
+            {
+                "ref": "#/definitions/non-empty-string"
+            },
+            "comment":
+            {
+                "ref": "#/definitions/non-empty-string"
+            },
+            "password":
+            {
+                "ref": "#/definitions/non-empty-string"
+            },
+            "group":
+            {
+                "type": "object",
+                "properties":
+                {
+                    "id":
+                    {
+                        "type": "number"
+                    },
+                    "name":
+                    {
+                        "ref": "#/definitions/non-empty-string"
+                    }
+                },
+                "required":
+                [
+                    "id",
+                    "name"
+                ]
+            },
+            "groups":
+            {
+                "ref": "#/definitions/non-empty-string-array"
+            },
+            "shell":
+            {
+                "type": "string",
+                "enum":
+                [
+                    "/bin/bash",
+                    "/bin/zsh"
+                ]
+            },
+            "create_home":
+            {
+                "type": "boolean"
+            },
+            "disable_login":
+            {
+                "type": "boolean"
+            },
+            "sudoer":
+            {
+                "type": "boolean"
+            },
+            "ssh":
+            {
+                "type": "object",
+                "properties":
+                {
+                    "authorized_keys":
+                    {
+                        "ref": "#/definitions/non-empty-string-array"
+                    }
+                }
+            }
+        },
+        "required":
+        [
+            "name"
+        ]
+    },
+    "definitions":
+    {
+        "non-empty-string":
+        {
+            "type": "string",
+            "minLength": 1
+        },
+        "non-empty-string-array":
+        {
+            "type": "array",
+            "minItems": 1,
+            "items":
+            {
+                "$ref": "#/definitions/non-empty-string"
+            }
+        },
+        "non-empty-array":
+        {
+            "type": "array",
+            "minItems": 1
+        }
+    }
+}

@@ -1,0 +1,248 @@
+{
+    "title": "ufw",
+    "description": "schema for ufw configuration",
+    "type": "object",
+    "properties":
+    {
+        "logging":
+        {
+            "type": "string",
+            "enum":
+            [
+                "on",
+                "off",
+                "low",
+                "medium",
+                "high",
+                "full"
+            ]
+        },
+        "defaults":
+        {
+            "type": "object",
+            "properties":
+            {
+                "incoming":
+                {
+                    "type": "string",
+                    "enum":
+                    [
+                        "allow",
+                        "deny",
+                        "reject"
+                    ]
+                },
+                "outgoing":
+                {
+                    "type": "string",
+                    "enum":
+                    [
+                        "allow",
+                        "deny",
+                        "reject"
+                    ]
+                }
+            }
+        },
+        "state":
+        {
+            "type": "string",
+            "enum":
+            [
+                "enabled",
+                "disabled",
+                "reloaded",
+                "reset"
+            ]
+        },
+        "profiles":
+        {
+            "type": "array",
+            "items":
+            {
+                "type": "object",
+                "properties":
+                {
+                    "name":
+                    {
+                        "$ref": "#/definitions/non-empty-string"
+                    },
+                    "delete":
+                    {
+                        "type": "boolean"
+                    },
+                    "rule":
+                    {
+                        "type": "string",
+                        "enum":
+                        [
+                            "allow",
+                            "limit",
+                            "deny",
+                            "reject"
+                        ]
+                    },
+                    "required":
+                    [
+                        "name",
+                        "rule"
+                    ]
+                }
+            }
+        },
+        "outgoing":
+        {
+            "type": "array",
+            "items":
+            {
+                "type": "object",
+                "properties":
+                {
+                    "comment":
+                    {
+                        "$ref": "#/definitions/non-empty-string"
+                    },
+                    "delete":
+                    {
+                        "type": "boolean"
+                    },
+                    "interface":
+                    {
+                        "$ref": "#/definitions/non-empty-string"
+                    },
+                    "policy":
+                    {
+                        "type": "string",
+                        "enum":
+                        [
+                            "allow",
+                            "limit",
+                            "deny",
+                            "reject"
+                        ]
+                    },
+                    "to_ip":
+                    {
+                        "$ref": "#/definitions/non-empty-string"
+                    },
+                    "to_port":
+                    {
+                        "$ref": "#definitions/network-port-number"
+                    },
+                    "protocol":
+                    {
+                        "type": "string",
+                        "enum":
+                        [
+                            "any",
+                            "tcp",
+                            "udp",
+                            "ipv6",
+                            "esp",
+                            "ah",
+                            "gre",
+                            "igmp"
+                        ]
+                    }
+                },
+                "required":
+                [
+                    "policy",
+                    "comment",
+                    "to_port"
+                ]
+            }
+        },
+        "incoming":
+        {
+            "type": "array",
+            "items":
+            {
+                "type": "object",
+                "properties":
+                {
+                    "comment":
+                    {
+                        "$ref": "#/definitions/non-empty-string"
+                    },
+                    "delete":
+                    {
+                        "type": "boolean"
+                    },
+                    "interface":
+                    {
+                        "$ref": "#/definitions/non-empty-string"
+                    },
+                    "policy":
+                    {
+                        "type": "string",
+                        "enum":
+                        [
+                            "allow",
+                            "limit",
+                            "deny",
+                            "reject"
+                        ]
+                    },
+                    "from_ip":
+                    {
+                        "$ref": "#/definitions/non-empty-string"
+                    },
+                    "to_port":
+                    {
+                        "$ref": "#definitions/network-port-number"
+                    },
+                    "protocol":
+                    {
+                        "type": "string",
+                        "enum":
+                        [
+                            "any",
+                            "tcp",
+                            "udp",
+                            "ipv6",
+                            "esp",
+                            "ah",
+                            "gre",
+                            "igmp"
+                        ]
+                    }
+                },
+                "required":
+                [
+                    "policy",
+                    "comment",
+                    "to_port"
+                ]
+            }
+        }
+    },
+    "definitions":
+    {
+        "network-port-number":
+        {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 65535
+        },
+        "non-empty-string":
+        {
+            "type": "string",
+            "minLength": 1
+        },
+        "non-empty-string-array":
+        {
+            "type": "array",
+            "minItems": 1,
+            "items":
+            {
+                "$ref": "#/definitions/non-empty-string"
+            }
+        },
+        "non-empty-array":
+        {
+            "type": "array",
+            "minItems": 1
+        }
+    }
+}
