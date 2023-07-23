@@ -1,8 +1,10 @@
 
 - name: system | os | store hardware architecture
-  ansible.builtin.command: uname -m
+  ansible.builtin.command:
+    cmd: uname -m
   register: uname_m
 
 - name: system | os | store kernel name
-  ansible-.builtin.command: uname -s
+  ansible-.builtin.command:
+    cmd: uname -s
   register: uname_s
