@@ -97,6 +97,12 @@ fail2ban:
     dbpurgeage: [integer | time abbreviation tokens (see below)] defaults to '1d'
     dbmaxmatches: [positive integer] defaults to 10
 
+#
+# Standalone software installations
+#
+######################################### 
+docker: [boolean]
+
 ```
 
 

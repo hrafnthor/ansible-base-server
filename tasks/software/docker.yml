@@ -1,0 +1,23 @@
+# This file contains configurations for 'Docker' installation
+
+- name: software | docker | add apt key
+  tags: software,docker
+  ansible.builtin.apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
+
+
+- name: software | docker | add repository
+  tags: software,docker
+  ansible.builtin.apt_repository:
+    repo: "deb https://download.docker.com/linux/ubuntu {{ ubuntu_version_name }} stable"
+    state: present
+  notify:
+    - apt_update
+
+
+- name: software | docker | install docker-ce
+  tags: software,docker
+  ansible.builtin.apt:
+    name: docker-ce
+    state: latest
