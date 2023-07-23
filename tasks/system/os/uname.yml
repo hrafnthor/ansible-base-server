@@ -5,6 +5,6 @@
   register: uname_m
 
 - name: system | os | store kernel name
-  ansible-.builtin.command:
+  ansible.builtin.command:
     cmd: uname -s
   register: uname_s
