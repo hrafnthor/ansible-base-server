@@ -52,7 +52,7 @@ users:	array of users to create
 
 
 #
-#	UFW configuration
+#   UFW configuration
 #
 ###########################################
 
@@ -63,13 +63,13 @@ ufw:
     incoming: [deny, allow, reject]
     outgoing: [deny, allow, reject]
   incoming:
-  - comment: non empty string <required>
-    policy: [allow, limit, deny, reject] <required>
-    interface: non empty string
-    delete: boolean. Removes rule if exists
-    from_ip: ipv4/ipv6 number, defaults to 'any'
-    to_port: integer between [0, 65535] <required>
-    protocol: [any (default), tcp, udp, ipv6, esp, ah, gre, igmp]
+    - comment: non empty string <required>
+      policy: [allow, limit, deny, reject] <required>
+      interface: non empty string
+      delete: boolean. Removes rule if exists
+      from_ip: ipv4/ipv6 number, defaults to 'any'
+      to_port: integer between [0, 65535] <required>
+      protocol: [any (default), tcp, udp, ipv6, esp, ah, gre, igmp]
   outgoing:
     - comment: non empty string	<required>
       policy: [allow, limit, deny, reject] <required>
@@ -85,18 +85,28 @@ ufw:
 #########################################
 
 fail2ban:
-  enabled: boolean
+  # Indicates the state change that should be applied via systemd at the end of fail2ban configuration
+  state: [started, reloaded, restarted, stopped]
+  # If present, will cause a configuration file to be configured at '/etc/fail2ban/fail2ban.local'
   config:
-    logging:
-      level: [CRITICAL, ERROR, WARNING, NOTICE, INFO (default), DEBUG] 
-      target: [STDOUT, STDERR (default), SYSLOG, SYSLOG, SYSOUT, SYSTEMD-JOURNAL, file-path]
-      socket: [auto (default) | file-path] 
-    socket: [file-path] defaults to '/var/run/fail2ban/fail2ban.sock'
-    pidfile: [file-path] defaults to 'var/run/fail2ban/fail2ban.pid'
-    allowipv6: boolean
-    dbpurgeage: [integer | time abbreviation tokens (see below)] defaults to '1d'
-    dbmaxmatches: [positive integer] defaults to 10
-
+    # Indicates if a backup should be made of the configuration file that might already exist.
+    # Defaults to 'false'
+    backup: [boolean]
+    # If true, indicates that the file should be generated from the templates path.
+    # If false, then a direct file copy will be performed from the files path.
+    is_template: [boolean]
+    # The file path relative to the type directory (templates/files).
+    path: [string]
+  # If present, will cause a jail file to be configured at '/etc/fail2ban/jail.local'
+  jail:
+    # Indicates if a backup should be made of any jail file that might already exist.
+    # Defaults to 'false'.
+    backup: true
+    # If true, indicates that the file should be generated from the templates path.
+    # If false, then a direct file copy will be performed from the files path.
+    is_template: true
+    # The file path relative to the type directory (templates/files).
+    path: [string]
 #
 # Standalone software installations
 #
@@ -104,26 +114,3 @@ fail2ban:
 docker: [boolean]
 
 ```
-
-
-##### Time abbreviation tokens
-
-The  time  entries in fail2ban configuration (like findtime or bantime) can be provided as
-integer in seconds or as string using special abbreviation format (e. g. 600 is  the  same
-as 10m).
-
-Abbreviation tokens:
-
-      years?, yea?, yy?
-      months?, mon?
-      weeks?, wee?, ww?
-      days?, da, dd?
-      hours?, hou?, hh?
-      minutes?, min?, mm?
-      seconds?, sec?, ss?
-
-      The question mark (?) means the optional character, so day as well as days can be used.
-
-You  can combine multiple tokens in format (separated with space resp. without separator),
-e. g.: 1y 6mo or 1d12h30m.
-Note that tokens m as well as mm means minutes, for month use abbreviation mo or mon.
