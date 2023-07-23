@@ -4,4 +4,4 @@
 
 # Configuration and installation of Docker
 - ansible.builtin.import_tasks: docker/main.yml
-  when: docker is defined and docker == true
+  when: docker is defined
