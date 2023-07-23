@@ -101,29 +101,11 @@ fail2ban:
 # Standalone software installations
 #
 ######################################### 
-docker: [boolean]
 
+# Existence of 'docker' will install docker
+docker:
+  # Existence of 'compose' will install compose
+  - compose:
+      # the version number of compose to install. [required]
+      - version: [string]
 ```
-
-
-##### Time abbreviation tokens
-
-The  time  entries in fail2ban configuration (like findtime or bantime) can be provided as
-integer in seconds or as string using special abbreviation format (e. g. 600 is  the  same
-as 10m).
-
-Abbreviation tokens:
-
-      years?, yea?, yy?
-      months?, mon?
-      weeks?, wee?, ww?
-      days?, da, dd?
-      hours?, hou?, hh?
-      minutes?, min?, mm?
-      seconds?, sec?, ss?
-
-      The question mark (?) means the optional character, so day as well as days can be used.
-
-You  can combine multiple tokens in format (separated with space resp. without separator),
-e. g.: 1y 6mo or 1d12h30m.
-Note that tokens m as well as mm means minutes, for month use abbreviation mo or mon.
