@@ -84,18 +84,18 @@ ufw:
 #
 #########################################
 
-
 fail2ban:
-  state: [started, reloaded, restarted, stopped]
+  enabled: boolean
   config:
-    backup: boolean
-    is_template: boolean
-    path: path to file
-  jail:
-    backup: boolean
-    is_template: boolean
-    path: path to file
-
+    logging:
+      level: [CRITICAL, ERROR, WARNING, NOTICE, INFO (default), DEBUG] 
+      target: [STDOUT, STDERR (default), SYSLOG, SYSLOG, SYSOUT, SYSTEMD-JOURNAL, file-path]
+      socket: [auto (default) | file-path] 
+    socket: [file-path] defaults to '/var/run/fail2ban/fail2ban.sock'
+    pidfile: [file-path] defaults to 'var/run/fail2ban/fail2ban.pid'
+    allowipv6: boolean
+    dbpurgeage: [integer | time abbreviation tokens (see below)] defaults to '1d'
+    dbmaxmatches: [positive integer] defaults to 10
 
 ```
 
