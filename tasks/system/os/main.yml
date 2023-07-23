@@ -2,3 +2,5 @@
 
 # perform systemctl related configuration
 - ansible.builtin.import_tasks: systemctl.yml
+
+- ansible.builtin.import_tasks: unattended_upgrades.yml
