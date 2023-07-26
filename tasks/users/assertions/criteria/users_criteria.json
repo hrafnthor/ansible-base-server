@@ -56,9 +56,17 @@
                     "/bin/zsh"
                 ]
             },
-            "create_home":
+            "home":
             {
-                "type": "boolean"
+                "type": "object",
+                "properties": {
+                    "create": {
+                        "type": "boolean"
+                    },
+                    "mode": {
+                        "type": "string"
+                    }
+                }
             },
             "disable_login":
             {

@@ -41,9 +41,19 @@
     password: "{{ user.password | default('!')}}"
     update_password: "on_create"
     shell: "{{ user.shell | default('/bin/bash') }}"
-    create_home: "{{ user.create_home | default(true) }}"
+    create_home: "{{ user.home.create | default(true) }}"
     state: present
 
+- name: system | users | change homedir permissions
+  tags: system,users
+  ansible.builtin.file:
+    path: /home/{{ user.name }}
+    state: directory
+    mode: "{{ user.home.mode }}"
+  when:
+    - user.home is defined
+    - user.home.mode is defined
+    - user.home.create
 
 - name: system | users | add sudoers file
   tags: system,users,sudoers
