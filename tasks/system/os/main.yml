@@ -1,7 +1,5 @@
 ---
 
-- ansible.builtin.import_tasks: uname.yml
-
 # perform systemctl related configuration
 - ansible.builtin.import_tasks: systemctl.yml
 
