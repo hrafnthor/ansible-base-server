@@ -16,12 +16,6 @@
   #
   - ansible.builtin.import_tasks: users/main.yml
 
-
-  #
-  #  Software installation 
-  #
-  - ansible.builtin.import_tasks: software/main.yml
-
   #
   # Root account configuration
   #

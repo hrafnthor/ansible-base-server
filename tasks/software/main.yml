@@ -1,7 +1,0 @@
-
-# Standalone utilities installation
-- ansible.builtin.import_tasks: utilities.yml
-
-# Configuration and installation of Docker
-- ansible.builtin.import_tasks: docker/main.yml
-  when: docker is defined
