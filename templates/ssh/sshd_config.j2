@@ -8,7 +8,7 @@ Port {{ ssh_port | default(22) }}
 #
 # 	Authentication
 #
-AllowUsers {{ ssh_users | default("hrafn") }}
+AllowUsers {{ ssh_users | default("") }}
 ChallengeResponseAuthentication no
 HostbasedAuthentication no
 LoginGraceTime 60
