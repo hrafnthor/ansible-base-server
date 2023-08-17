@@ -1,0 +1,7 @@
+roles:
+  - name: robertdebock-logrotate
+    src: git@github.com:robertdebock/ansible-role-logrotate.git
+    scm: git
+    version: 2.6.0
+collections:
+  - name: community.docker
