@@ -13,14 +13,20 @@ The following are the options available with the task:
 
 ubuntu_version_name: non empty string <required>
 systemctl:
-  swappiness: integer [0 to 100]
+  # sets the system swappiness level, i.e the aggressiveness 
+  # at which the kernel may swap memory. 0 means least aggressive
+  # while 100 is maximum aggressiveness.
+  swappiness: [int]
 
 #
 #   OpenSSH configuration   
 #
 ###########################################
-ssh_users: non empty string
-ssh_port: integer [0, 65535]
+ssh_users: 
+  # single (or list of) user(s) that should have ssh access
+  - [string]
+# the ssh port to listen to [0, 65535]
+ssh_port: [int] 
 
 #
 #   User configuration
@@ -56,6 +62,7 @@ users:	array of users to create
 #
 ###########################################
 
+# Existence of 'ufw' will install it.
 ufw:
   state: [enabled, disabled, reloaded, reset]
   logging: [on, off, low, medium, high, full]
@@ -84,6 +91,7 @@ ufw:
 #
 #########################################
 
+# Existence of 'fail2ban' will install it.
 fail2ban:
   # Indicates the state change that should be applied via systemd at the end of fail2ban configuration
   state: [started, reloaded, restarted, stopped]
@@ -108,7 +116,7 @@ fail2ban:
     # The file path relative to the type directory (templates/files).
     path: [string]
 #
-# Standalone software installations
+#       Docker installation
 #
 ######################################### 
 
@@ -118,6 +126,76 @@ docker:
   - compose:
       # the version number of compose to install. [required]
       - version: [string]
+
+#
+#       logrotate configuration
+#
+#########################################
+
+# The following variables are defined in the dependency 'robertdebock/ansible-role-logrotate'
+
+# What the default frequency should be. If missing, defaults to weekly
+logrotate_frequency: [daily, weekly, monthly]
+# How many files to keep. If missing, defaults to 4
+logrotate_keep: [int]
+# If compression should be used. If missing, defaults to yes
+logrotate_compress: [boolean]
+# Individual log rotate entries
+logrotate_entries:
+    # (required) the name used for the logrotate file
+  - name: [string]
+    # (required) logrotate supported path to log file/s
+    path: [string] 
+    # overrides the default frequency value for this entry only
+    frequency: [daily, weekly, monthly]
+    # overrides the default logrotate keep value for this entry only.
+    keep: [int]
+    # overrides the default logrotate compress value for this entry only.
+    compress: [boolean]
+    # copy the original log file without modifying it.
+    # see: https://man.archlinux.org/man/logrotate.8.en#copy
+    copylog: [boolean]
+    # truncate the original file to zero after creating a copy.
+    # see: https://man.archlinux.org/man/logrotate.8.en#copytruncate
+    copytruncate: [boolean]
+    # postpone compression of the previous log file to the next rotation cycle.
+    # see: https://man.archlinux.org/man/logrotate.8.en#delaycompress
+    delaycompress: [boolean]
+    # use yesterdays date rather than today when creating the 'dateext' extension
+    # see: https://man.archlinux.org/man/logrotate.8.en#dateyesterday
+    dateyesterday: [boolean]
+    # command to run after log file rotation
+    postrotate: [string]
+    # immediatly after rotation the log file is created.
+    # see: https://man.archlinux.org/man/logrotate.8.en#create
+    create: [boolean]
+    # if the log file is missing, go on to the next one without issuing an error message.
+    missingok: [boolean]
+    # if the log file is missing, issue an error. This is default.
+    # see: https://man.archlinux.org/man/logrotate.8.en#notifempty
+    nomissingok: [boolean]
+    # the chmod to use when using 'create'
+    create_mode: [string]
+    # the user owner of the file when using 'create'
+    create_user: [string]
+    # the group owner of the file when using 'create'
+    create_group: [string]
+    # archive old versions of log files adding a date extension rather than numbers.
+    # see: https://man.archlinux.org/man/logrotate.8.en#dateext
+    dateext: [boolean]
+    # the dateformat to use when using 'dateext'
+    # see: https://man.archlinux.org/man/logrotate.8.en#dateformat
+    dateformat: [string]
+    # the size at which logs are rotate if they surpass it, but not until the next rotation 'frequency' is reached.
+    # see: https://man.archlinux.org/man/logrotate.8.en#minsize
+    minsize: [string]
+    # do not rotate the log if it is empty.
+    # see: https://man.archlinux.org/man/logrotate.8.en#notifempty
+    notifempty: [boolean]
+    # if true then scripts matched in rules are only run once even if they are defined for multiple rules.
+    # see: https://man.archlinux.org/man/logrotate.8.en#sharedscripts
+    sharedscripts: [boolean]
+
 ```
 ### Dependencies
 
