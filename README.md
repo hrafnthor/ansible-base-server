@@ -119,3 +119,14 @@ docker:
       # the version number of compose to install. [required]
       - version: [string]
 ```
+### Dependencies
+
+#### [robertdebock/ansible-role-logrotate](https://github.com/robertdebock/ansible-role-logrotate)
+
+### License
+
+[Apache 2.0](https://github.com/hrafnthor/ansible-base-server/blob/main/LICENSE)
+
+### Author
+
+[Hrafn Thorvaldsson](https://github.com/hrafnthor)
