@@ -7,6 +7,9 @@
 # perform APT configuration
 - ansible.builtin.import_tasks: apt.yml
 
+# Standalone utilities installation
+- ansible.builtin.import_tasks: utilities.yml
+
 # perform OpenSSH configuration
 - ansible.builtin.import_tasks: openssh.yml
 
@@ -17,3 +20,11 @@
 # performs ufw based firewall configuration
 - ansible.builtin.import_tasks: ufw/main.yml
   when: ufw is defined
+
+# Configuration and installation of Docker
+- ansible.builtin.import_tasks: docker/main.yml
+  when: docker is defined
+
+# Configure logrotation if any is defined
+- ansible.builtin.include_role:
+    name: robertdebock-logrotate

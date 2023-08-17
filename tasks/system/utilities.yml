@@ -4,7 +4,7 @@
 - name: software | utilities | install package
   ansible.builtin.apt:
     state: latest
-    name: 
+    name:
       - at
       - curl
       - ca-certificates
