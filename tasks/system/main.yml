@@ -24,3 +24,7 @@
 # Configuration and installation of Docker
 - ansible.builtin.import_tasks: docker/main.yml
   when: docker is defined
+
+# Configure logrotation if any is defined
+- ansible.builtin.include_role:
+    name: robertdebock-logrotate
