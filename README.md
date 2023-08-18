@@ -100,8 +100,10 @@ fail2ban:
     # Indicates if a backup should be made of the configuration file that might already exist.
     # Defaults to 'false'
     backup: [boolean]
-    # If true, indicates that the file should be generated from the templates path.
-    # If false, then a direct file copy will be performed from the files path.
+    # If true, indicates that the file should be generated from a template path (referenced
+    # file needs to be inside the /templates directory).
+    # If false, then a direct file copy will be performed from the files path (referenced file 
+    # needs to be inside /files directory).
     is_template: [boolean]
     # The file path relative to the type directory (templates/files).
     path: [string]
@@ -109,12 +111,43 @@ fail2ban:
   jail:
     # Indicates if a backup should be made of any jail file that might already exist.
     # Defaults to 'false'.
-    backup: true
-    # If true, indicates that the file should be generated from the templates path.
-    # If false, then a direct file copy will be performed from the files path.
-    is_template: true
+    backup: [boolean]
+    # If true, indicates that the file should be generated from a template path (referenced
+    # file needs to be inside the /templates directory).
+    # If false, then a direct file copy will be performed from the files path (referenced file 
+    # needs to be inside /files directory).
+    is_template: [boolean]
     # The file path relative to the type directory (templates/files).
     path: [string]
+  # If present, will configure individual jails at '/etc/fail2ban/jail.d/name.local'
+  jails:
+    # (required) the name of the file without ending
+    name: [string]
+    # Indicates if a backup should be made of any jail files that might already 
+    # exist with the given name. Defaults to false.
+    backup: [boolean]
+    # If true, indicates that the file should be generated from a template path (referenced
+    # file needs to be inside the /templates directory).
+    # If false, then a direct file copy will be performed from the files path (referenced file 
+    # needs to be inside /files directory).
+    is_template: [boolean]
+    # The file path relative to the type directory (templates/files)
+    path: [string]
+  # If present, will configure individual jails at '/etc/fail2ban/filters/name.conf'
+  filters:
+    # (required) the name of the file without ending
+    name: [string]
+    # Indicates if a backup should be made of any jail files that might already 
+    # exist with the given name. Defaults to false.
+    backup: [boolean]
+    # If true, indicates that the file should be generated from a template path (referenced
+    # file needs to be inside the /templates directory).
+    # If false, then a direct file copy will be performed from the files path (referenced file 
+    # needs to be inside /files directory).
+    is_template: [boolean]
+    # The file path relative to the type directory (templates/files)
+    path: [string]
+
 #
 #       Docker installation
 #

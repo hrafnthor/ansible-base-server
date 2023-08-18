@@ -14,67 +14,137 @@
     state: latest
     name: fail2ban
 
-
-- name: system | fail2ban | copy over template config
-  tags: system,software,security,fail2ban
-  ansible.builtin.template:
-    src: "{{ fail2ban.config.path }}"
-    dest: /etc/fail2ban/fail2ban.local
-    owner: root
-    group: root
-    mode: '0644'
-    backup: "{{ fail2ban.config.backup | default(false) }}"
-  notify: restart_fail2ban
-  when:
-    - fail2ban.config is defined
-    - fail2ban.config.is_template
-
-
-- name: system | fail2ban | copy over config
-  tags: system,software,security,fail2ban
-  ansible.builtin.copy:
-    src: "{{ fail2ban.config.path }}"
-    dest: /etc/fail2ban/fail2ban.local
-    owner: root
-    group: root
-    mode: '0644'
-    backup: "{{ fail2ban.config.backup | default(false) }}"
-  notify: restart_fail2ban
-  when:
-    - fail2ban.config is defined
-    - not fail2ban.config.is_template
+- name: system | fail2ban | configure
+  # notify: restart_fail2ban  # this waits for ansible 2.11 to become available
+  block:
+  - name: system | fail2ban | copy over template config
+    tags: system,software,security,fail2ban
+    ansible.builtin.template:
+      src: "{{ fail2ban.config.path }}"
+      dest: /etc/fail2ban/fail2ban.local
+      owner: root
+      group: root
+      mode: '0644'
+      backup: "{{ fail2ban.config.backup | default(false) }}"
+    when:
+      - fail2ban.config is defined
+      - fail2ban.config.is_template
 
 
-- name: system | fail2ban | copy over template jails
-  tags: system,software,security,fail2ban
-  ansible.builtin.template:
-    src: "{{ fail2ban.jail.path }}"
-    dest: /etc/fail2ban/jail.local
-    owner: root
-    group: root
-    mode: '0644'
-    backup: "{{ fail2ban.jail.backup | default(false) }}"
-  notify: restart_fail2ban
-  when:
-    - fail2ban.jail is defined
-    - fail2ban.jail.is_template
+  - name: system | fail2ban | copy over config
+    tags: system,software,security,fail2ban
+    ansible.builtin.copy:
+      src: "{{ fail2ban.config.path }}"
+      dest: /etc/fail2ban/fail2ban.local
+      owner: root
+      group: root
+      mode: '0644'
+      backup: "{{ fail2ban.config.backup | default(false) }}"
+    when:
+      - fail2ban.config is defined
+      - not fail2ban.config.is_template
 
 
-- name: system | fail2ban | copy over jails
-  tags: system,software,security,fail2ban
-  ansible.builtin.copy:
-    src: "{{ fail2ban.jail.path }}"
-    dest: /etc/fail2ban/jail.local
-    owner: root
-    group: root
-    mode: '0644'
-    backup: "{{ fail2ban.jail.backup | default(false) }}"
-  notify: restart_fail2ban
-  when:
-    - fail2ban.jail is defined
-    - not fail2ban.jail.is_template
+  - name: system | fail2ban | template top level jail
+    tags: system,software,security,fail2ban
+    ansible.builtin.template:
+      src: "{{ fail2ban.jail.path }}"
+      dest: /etc/fail2ban/jail.local
+      owner: root
+      group: root
+      mode: '0644'
+      backup: "{{ fail2ban.jail.backup | default(false) }}"
+    when:
+      - fail2ban.jail is defined
+      - fail2ban.jail.is_template
 
 
+  - name: system | fail2ban | copy over top level jail
+    tags: system,software,security,fail2ban
+    ansible.builtin.copy:
+      src: "{{ fail2ban.jail.path }}"
+      dest: /etc/fail2ban/jail.local
+      owner: root
+      group: root
+      mode: '0644'
+      backup: "{{ fail2ban.jail.backup | default(false) }}"
+    when:
+      - fail2ban.jail is defined
+      - not fail2ban.jail.is_template
+
+
+  - name: system | fail2ban | template individual jails
+    tags: system,software,security,fail2ban
+    ansible.builtin.template:
+      src: "{{ jail.path }}"
+      dest: "/etc/fail2ban/jail.d/{{ jail.name }}.local"
+      owner: root
+      group: root
+      mode: '0644'
+      backup: "{{ jail.backup | default(false) }}"
+    loop: "{{ fail2ban.jails }}"
+    loop_control:
+      loop_var: jail
+    when:
+      - fail2ban.jails is defined
+      - jail.is_template
+
+
+  - name: system | fail2ban | copy over individual jails
+    tags: system,software,security,fail2ban
+    ansible.builtin.copy:
+      src: "{{ jail.path }}"
+      dest: "/etc/fail2ban/jail.d/{{ jail.name }}.local"
+      owner: root
+      group: root
+      mode: '0644'
+      backup: "{{ jail.backup | default(false) }}"
+    loop: "{{ fail2ban.jails }}"
+    loop_control:
+      loop_var: jail
+    when:
+      - fail2ban.jails is defined
+      - not jail.is_template
+
+
+  - name: system | fail2ban | template individual filters
+    tags: system,software,security,fail2ban
+    ansible.builtin.template:
+      src: "{{ filter.path }}"
+      dest: "/etc/fail2ban/filter.d/{{ filter.name }}.conf"
+      owner: root
+      group: root
+      mode: '0644'
+      backup: "{{ filter.backup | default(false) }}"
+    loop: "{{ fail2ban.filters }}"
+    loop_control:
+      loop_var: filter
+    when:
+      - fail2ban.filters is defined
+      - filter.is_template
+
+  - name: system | fail2ban | copy over individual filter
+    tags: system,software,security,fail2ban
+    ansible.builtin.copy:
+      src: "{{ filter.path }}"
+      dest: "/etc/fail2ban/filter.d/{{ filter.name }}.conf"
+      owner: root
+      group: root
+      mode: '0644'
+      backup: "{{ filter.backup | default(false) }}"
+    loop: "{{ fail2ban.filters }}"
+    loop_control:
+      loop_var: filter
+    when:
+      - fail2ban.filters is defined
+      - not filter.is_template
+
+  always:
+    - name: system | fail2ban | restart service
+      ansible.builtin.service:
+        name: fail2ban
+        state: restarted
+        
 - name: system | fail2ban | change service state
   ansible.builtin.systemd:
     name: fail2ban
