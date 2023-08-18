@@ -2,75 +2,105 @@
     "title": "fail2ban",
     "description": "schema for 'fail2ban' variable",
     "type": "object",
-    "properties":
-    {
-        "enabled":
-        {
+    "properties": {
+        "enabled": {
             "type": "string",
-            "enum":
-            [
+            "enum": [
                 "reloaded",
                 "restarted",
                 "started",
                 "stopped"
             ]
         },
-        "config":
-        {
+        "config": {
             "type": "object",
-            "properties":
-            {
-                "backup":
-                {
+            "properties": {
+                "backup": {
                     "type": "boolean"
                 },
-                "is_template":
-                {
+                "is_template": {
                     "type": "boolean"
                 },
-                "path":
-                {
+                "path": {
                     "ref": "#/definitions/non-empty-string"
                 }
             },
-            "required":
-            [
+            "required": [
                 "path"
             ]
         },
-        "jail":
-        {
+        "jail": {
             "type": "object",
-            "properties":
-            {
-                "backup":
-                {
+            "properties": {
+                "backup": {
                     "type": "boolean"
                 },
-                "is_template":
-                {
+                "is_template": {
                     "type": "boolean"
                 },
-                "path":
-                {
+                "path": {
                     "ref": "#/definitions/non-empty-string"
                 }
             },
-            "required":
-            [
+            "required": [
                 "path"
             ]
+        },
+        "jails": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "ref": "#/definitions/non-empty-string"
+                    },
+                    "backup": {
+                        "type": "boolean"
+                    },
+                    "is_template": {
+                        "type": "boolean"
+                    },
+                    "path": {
+                        "ref": "#/definitions/non-empty-string"
+                    }
+                },
+                "required": [
+                    "path",
+                    "name"
+                ]
+            }
+        },
+        "filters": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "ref": "#/definitions/non-empty-string"
+                    },
+                    "backup": {
+                        "type": "boolean"
+                    },
+                    "is_template": {
+                        "type": "boolean"
+                    },
+                    "path": {
+                        "ref": "#/definitions/non-empty-string"
+                    }
+                },
+                "required": [
+                    "path",
+                    "name"
+                ]
+            }
         }
     },
-    "definitions":
-    {
-        "non-empty-string":
-        {
+    "definitions": {
+        "non-empty-string": {
             "type": "string",
             "minLength": 1
         },
-        "positive-integer":
-        {
+        "positive-integer": {
             "type": "integer",
             "minimum": 0
         }
