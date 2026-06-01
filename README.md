@@ -1,6 +1,15 @@
 # ansible-base-server
 Common base actions needed on servers
 
+## ARCHIVED
+
+Instead of using this role I recommend using these standalone roles instead: 
+
+- [ansible-ufw](https://github.com/hrafnthor/ansible-ufw)
+- [ansible-fail2ban](https://github.com/hrafnthor/ansible-fail2ban)
+- [ansible-identities](https://github.com/hrafnthor/ansible-identities)
+- [ansible-docker](https://github.com/hrafnthor/ansible-docker)
+
 ### Host configuration file
 
 The following are the options available with the task:
